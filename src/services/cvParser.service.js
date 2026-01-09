@@ -1,18 +1,21 @@
 import fs from "fs";
-import pdf from "pdf-parse";
-import mammoth from "mammoth";
 import path from "path";
+import mammoth from "mammoth";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
 
 export const extractTextFromCV = async (filePath) => {
-  const extension = path.extname(filePath).toLowerCase();
+  const ext = path.extname(filePath).toLowerCase();
 
-  if (extension === ".pdf") {
-    const dataBuffer = fs.readFileSync(filePath);
-    const pdfData = await pdf(dataBuffer);
-    return pdfData.text;
+  if (ext === ".pdf") {
+    const buffer = fs.readFileSync(filePath);
+    const data = await pdfParse(buffer);
+    return data.text;
   }
 
-  if (extension === ".docx") {
+  if (ext === ".docx") {
     const result = await mammoth.extractRawText({ path: filePath });
     return result.value;
   }

@@ -10,7 +10,7 @@ app.use(express.json());
 app.use("/api/cv", cvRoutes);
 
 app.get("/", (req, res) => {
-  res.json({ status: "CV Checker API is Running" });
+  res.json({ status: "CV Checker API is running" });
 });
 
 export default app;
